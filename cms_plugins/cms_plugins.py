@@ -1,11 +1,7 @@
 # vim:fileencoding=utf-8
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
-from datetime import datetime
-from django.contrib import admin
-
 from .models import SliderPluginModel
-from contents.models import News
 
 
 @plugin_pool.register_plugin
