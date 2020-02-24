@@ -1,0 +1,10 @@
+<div class="right flr" id="menu{{ plugin.menu.id }}">
+            <div class="menu-close"></div>
+            <div class="lk-menu">
+                <ul>
+                    {% for item in plugin.menu.links.all %}
+                    <li><a href="{{ item.url }}">{{ item.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>

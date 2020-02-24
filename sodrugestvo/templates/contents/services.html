@@ -1,0 +1,49 @@
+{% extends 'inner.html' %}
+{% load cms_tags thumbnail %}
+{% block inner_right %}
+<div id="lk-menu" class="right flr">
+            <div class="menu-close"></div>
+            <div class="lk-menu">
+                <ul>
+                    {% for item in tariffs %}
+                    <li><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+{% endblock %}
+
+{% block inner_center %}
+{% static_placeholder 'top_services' %}
+
+            <div class="decisions">
+                <div class="container">
+
+{% for item in services %}
+                    <div class="item fll">
+                    {% thumbnail item.image '70x70' upscale=False format="PNG" as img %}
+                        <img src="{{ img.url }}" alt="{{ item.name }}"/>
+                        {% endthumbnail %}
+                            <span class="c-green fw300">
+                                <span>{{ item.name }}</span>
+                            </span>
+
+                        <p class="fw100">
+                           {{ item.short }}</p>
+                        <a href="{{ item.get_absolute_url }}">Подробнее</a>
+                    </div>
+    {% if forloop.counter|divisibleby:2 or forloop.last %}
+    <div class="clr"></div>
+    {% endif %}
+                    {% endfor %}
+
+            </div>
+            </div>
+
+          {% static_placeholder 'bottom_services' %}
+
+
+{% endblock %}
+{% block botton_c %}
+        {% static_placeholder 'bottom_place' %}
+        {% endblock %}

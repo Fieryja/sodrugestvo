@@ -1,0 +1,38 @@
+{% extends 'inner.html' %}
+{% load thumbnail cms_tags %}
+{% block inner_right %}
+{% static_placeholder 'right_menu' %}
+{% endblock %}
+{% block inner_center %}
+<div class="respondes">
+        <div class="container">
+{% for item in object_list %}
+            <div class="respond {% cycle 'fll' 'flr' %}">
+            {% thumbnail item.image '176x176' crop='center' format='PNG' as img %}
+                <img src="{{ img.url }}" alt="" class="fll"/>
+                {% endthumbnail %}
+                <div class="inf">
+                    <span class="name">
+                        {{ item.name }}
+                    </span>
+
+ {% if item.post %}
+                    <span class="company">{{ item.post }}</span>
+                    {% endif %}
+
+                    <p class="fw100">{{ item.short }}
+                    </p>
+
+                    <span class="date fw100">
+                        {{ item.date|date:'d E Y' }}
+                    </span>
+                </div>
+            </div>
+    {% if forloop.counter|divisibleby:2 or forloop.last %}
+
+            <div class="clr"></div>
+    {% endif %}
+        {% endfor %}
+        </div>
+    </div>
+{% endblock %}

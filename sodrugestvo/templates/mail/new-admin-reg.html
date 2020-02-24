@@ -1,0 +1,8 @@
+{% extends 'mail/base.html' %}
+{% block text %}
+      <h1 style="font-size: 18px; padding: 0; margin:  0 0 20px; font-weight: normal;"><strong>Здравствуйте. Новая регистрация на сайте {{ site }}.</strong></h1>
+                        <p style="margin:  0 0 15px; color: #575757; padding: 0;"><span style="margin-right:  10px;">Логин:</span>{{ user.email }}</p>
+                        <p style="margin:  0 0 15px; color: #575757; padding: 0;"><span style="margin-right:  10px;">Посмотреть и подтвердить регистрацию можно <a target="_blank" href="http://{{ site }}/admin/auth/user/{{ user.id }}/">по ссылке</a>.</span></p>
+    <br/><br/>
+                        <p style="margin:  0 0 15px; color: #575757; padding: 0;">С уважением, <a target="_blank" href="https://{{ site.domain }}/">{{ site }}</a>.</p>
+{% endblock %}

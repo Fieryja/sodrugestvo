@@ -1,0 +1,26 @@
+{% for item in object_list %}
+    {% with last=item.get_last_answer %}
+        <div class="item">
+            <div class="top-part">
+                <div class="status{% if not item.close %} green{% endif %}">
+                {% if item.close %}
+                Закрыт
+                {% else %}
+                    {% if  not last or last.user == item.user %}
+                        Ожидает ответ специалиста
+                    {% elif item.user != last.user and user.is_staff %}
+                        Ожидает ответа пользователя
+                    {% elif item.user != last.user and not user.is_staff %}
+                        Ожидает вашего ответа
+                    {% endif %}
+                {% endif %}
+                </div>
+                <span class="c-gray">{{ item.date|date:'d.m.Y' }}</span><span class="c-gray">№{{ item.id }}</span>
+            </div>
+
+            <a href="{{ item.get_absolute_url }}">{{ item.theme }}</a>
+
+            <div class="spec">{{ last.user.get_full_name }} ({{ item.departament }})</div>
+        </div>
+    {% endwith %}
+{% endfor %}

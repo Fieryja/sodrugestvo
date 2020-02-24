@@ -1,0 +1,10 @@
+<div class="{{ plugin.style|default:'' }}"{% if plugin.anchor %} id="{{ plugin.anchor }}"{% endif %}>
+        <div class="content-blog">
+            {% if plugin.name %}
+                <h{{ plugin.h|default:'2' }}>{{ plugin.name|safe }}</h{{ plugin.h|default:'2' }}>{% endif %}
+            {{ plugin.text|safe }}
+
+    </div>
+</div>
+
+

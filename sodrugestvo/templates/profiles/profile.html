@@ -1,0 +1,109 @@
+{% extends 'inner.html' %}
+{% load template_tags %}
+{% block title %}Личный кабинет{% endblock %}
+{% block cont_class %}lk-area{% endblock %}
+{% block bread %}
+<span>/</span>
+<a href="{% url 'profiles' %}">Личный кабинет</a>
+{% endblock %}
+
+{% block inner_title %}ЛИЧНЫЙ КАБИНЕТ{% endblock %}
+{% block inner_right %}
+<div id="lk-menu" class="right flr">
+                <div class="menu-close"></div>
+
+                <div class="balance">
+                    <span class="c-green fw300">Ваш баланс:</span>
+                        <div class="summ">
+                            <strong>{{ user.profiles.balance|floatformat:0|price }}</strong> руб
+                        </div>
+                        <div class="price-info">
+                            <div class="cost-box">
+                                <div class="title c-green fw300">РАСХОД В МЕСЯЦ</div>
+                                <div class="cost"><span>{{ user.profiles.get_month_sum }}</span> руб</div>
+                                <div class="pay-date">К оплате до 15:30 20 июня</div>
+                            </div>
+                        </div>
+                        <div class="button">
+                            <a href="#" class="green-btn block-tbl"><span>Пополнить</span></a>
+                        </div>
+                </div>
+
+                <div class="lk-menu">
+                    <ul>
+                        <li><a href="{% url 'profiles' %}">Пополнение баланса</a></li>
+                        <li><a href="{% url 'profiles_detail' %}">Мой профиль{% if not user.profiles.email_confirm %}
+                    <a href="{% url 'send_activate' %}" title="Что бы подтвердить email нажмите сюда, после этого на регистрационную почту придёт письмо, в котором нужно перейти по ссылке">
+                    <i class="not-complete"></i></a>
+                    {% endif %}</a></li>
+                        <li><a href="{% url 'profiles_detail_call' %}">Посмотреть детализацию звонков</a></li>
+                        <li><a href="{% url 'profiles_tariff' %}">Управление услугами</a></li>
+                        <li><a href="{% url 'profiles_ticket' %}">Поддержка {% if user.profiles.get_no_read_ticket.exists %}<span class="mes-amount">{{ user.profiles.get_no_read_ticket|length }}</span>{% endif %}</a></li>
+                    </ul>
+                </div>
+            </div>
+
+{% endblock %}
+{% block inner_center %}
+<div class="tarif-choice">
+                    <span class="c-green fw300">Пополнение баланса</span>
+
+                    <p>Минимальная сумма пополнения 100 руб</p>
+
+                    <div class="recharge-form">
+                        <form>
+
+                            <input placeholder="Введите сумму пополнения в рублях" type="text"/>
+
+                            <button class="green-btn">выбрать способ оплаты</button>
+
+                        </form>
+                    </div>
+
+
+                    <div class="history">
+                        <span class="c-green fw300">История платежей</span>
+
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>Дата платежа</th>
+                                    <th>Способ платежа</th>
+                                    <th>Сумма платежа</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr>
+                                    <td>17.11.2017 12:36</td>
+                                    <td><strong>Кредитная карта</strong></td>
+                                    <td><strong>800 <span>руб</span></strong></td>
+                                </tr>
+                                <tr>
+                                    <td>17.11.2017 12:36</td>
+                                    <td><strong>Кредитная карта</strong></td>
+                                    <td><strong>800 <span>руб</span></strong></td>
+                                </tr>
+                                <tr>
+                                    <td>17.11.2017 12:36</td>
+                                    <td><strong>Кредитная карта</strong></td>
+                                    <td><strong>800 <span>руб</span></strong></td>
+                                </tr>
+                                <tr>
+                                    <td>17.11.2017 12:36</td>
+                                    <td><strong>Кредитная карта</strong></td>
+                                    <td><strong>800 <span>руб</span></strong></td>
+                                </tr>
+                                <tr>
+                                    <td>17.11.2017 12:36</td>
+                                    <td><strong>Кредитная карта</strong></td>
+                                    <td><strong>800 <span>руб</span></strong></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+{% endblock %}

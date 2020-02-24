@@ -1,0 +1,70 @@
+{% extends 'profiles/profile.html' %}
+{% load template_tags thumbnail %}
+{% block inner_center %}
+<div class="lk-content-screen imf">
+
+                        <h3 class="c-green">Выбрать тариф</h3>
+
+<div class="tarif-top-select-box fs18">
+                            <div class="row">
+                                <div class="label">Ваш текущий тариф:</div>
+                                <div class="value fw500">{{ user.profiles.tariff.name|default:'Отсутсвует' }}</div>
+                            </div>
+                            <div class="button">
+                                <a href="{% url 'profiles_tariff_choice' %}" class="green-btn block-tbl"><span>{% if user.profiles.tariff %}Сменить тариф{% else %}Подключить{% endif %}</span></a>
+                            </div>
+                        </div>
+<div class="phone-numbers-screen tb-border-box tb">
+                            <h3 class="c-green">Мои номера</h3>
+                            <div class="first-number item-box">
+                                <div class="title">Основной:</div>
+                                <a href="phone:+79011234567" class="phone">+7 (901) 123-45-67</a>
+                            </div>
+                            <div class="all-numbers item-box">
+                                <div class="title">Дополнительные:</div>
+                                <div class="numbers-list item-box">
+                                    <a href="phone:+79011234567" class="phone">+7 (901) 345-75-62</a>
+                                    <a href="phone:+79011234567" class="phone">+7 (901) 165-98-68</a>
+                                    <a href="phone:+79011234567" class="phone">+7 (901) 678-29-23</a>
+                                </div>
+                            </div>
+                            <div class="button-box">
+                                <a href="#" onclick="return false;" class="green-btn block-tbl"><span>Добавить номер</span></a>
+                            </div>
+                        </div>
+
+                        <h3 class="c-green">Список услуг</h3>
+
+                        <div class="services-management-box">
+                            <div class="services-list list-g">
+                                {% for item in services %}
+                                <div class="item{% if item.id in user.profiles.get_services_id %} active{% endif %}">
+                                    <div class="block">
+                                        <div class="head-block block-tbl">
+                                            <div class="ico">
+                                                {% thumbnail item.image '40x40' format="PNG" as img %}
+                                                <img src="{{ img.url }}">
+                                                {% endthumbnail %}
+                                            </div>
+                                            <div class="info">
+                                                <a href="{{ item.get_absolute_url }}" class="name">{{ item.name }}</a>
+                                            </div>
+                                        </div>
+                                        <div class="action-block block-tbl">
+                                            {% if item.id not in user.profiles.get_services_id %}
+                                            <a href="#" data-id="{{ item.id }}" class="set_service green-btn minimini-btn">Подключить</a>
+                                            <div class="date"></div>
+                                            {% else %}
+                                                <a href="#" data-id="{{ item.id }}" class="set_service gray-btn minimini-btn">Отключить</a>
+                                            <div class="date"></div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+
+                    </div>
+{% endblock %}

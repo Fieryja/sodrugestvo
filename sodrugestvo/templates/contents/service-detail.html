@@ -1,0 +1,28 @@
+{% extends 'contents/services.html' %}
+{% load cms_tags %}
+{% block bread %}
+<span>/</span><a href="{{ request.current_page.get_absolute_url }}">{{ request.current_page.get_title }}</a><span>/</span>
+<a href="{{ object.get_absolute_url }}">{{ object.name }}</a>
+{% endblock %}
+
+{% block inner_right %}
+<div id="lk-menu" class="right flr">
+            <div class="menu-close"></div>
+            <div class="lk-menu">
+                <ul>
+                    {% for item in services %}
+                    <li{% if object == item %} class="active"{% endif %}><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+{% endblock %}
+{% block inner_title %}{{ object.name }}
+{% endblock %}
+{% block inner_center %}
+{{ object.text|default:''|safe }}
+
+{% endblock %}
+{% block botton_c %}
+        {% static_placeholder 'bottom_place_detail' %}
+        {% endblock %}

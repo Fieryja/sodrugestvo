@@ -1,0 +1,47 @@
+{% extends 'profiles/profile.html' %}
+{% load template_tags %}
+{% block inner_center %}
+<div class="tarif-choice">
+                    <span class="c-green fw300">Выбрать Тариф</span>
+
+                    <p>Ваш текущий тариф: <strong>{{ user.profiles.tariff.name|default:'отсутсвует' }}</strong> Действует с 12.12.2017</p>
+
+                    <div class="items">
+                {% for item in tariffs %}
+                    <div class="item{% if item == user.profiles.tariff %} active{% endif %}">
+                        <div class="top">
+                            <div class="price">
+                                <span class="c-green">{{ item.price|price }}</span> Руб/мес
+                            </div>
+
+                            <span class="name fw500">{{ item.name }}</span>
+                        </div>
+
+                        <div class="desc fw300">
+                            {{ item.short }}
+                        </div>
+
+                        <div class="bottom">
+                            {% if user.profiles.tariff == item %}
+                            <a href="#" onclick="return false;" class="green-btn fll fw300 c-white">
+                                    Подключено
+                                </a>
+                            {% else %}
+                            <a href="#" class="green-btn fll fw300 c-white set_tariff" data-id="{{ item.id }}">
+                                подключить
+                            </a>
+                            {% endif %}
+
+                            <a href="{{ item.get_absolute_url }}" class="more fw300 flr">Подробно</a>
+                        </div>
+                    </div>
+                    {% if forloop.last or forloop.counter|divisibleby:3 %}
+                    <div class="clr"></div>
+                    {% endif %}
+                    {% endfor %}
+
+
+
+                </div>
+                </div>
+{% endblock %}

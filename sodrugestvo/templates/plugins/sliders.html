@@ -1,0 +1,18 @@
+<div class="slider c-white">
+        <div class="inner">
+            {% for item in sliders %}
+            <div class="item" style="{% if item.image %}background-image: url('{{ item.image.url }}');{% endif %}">
+                <div class="container">
+                   {{ item.html|safe }}
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+
+        <div id="pagination" class="pagination"></div>
+
+        <div class="nav-container">
+            <div class="container"></div>
+        </div>
+    </div>

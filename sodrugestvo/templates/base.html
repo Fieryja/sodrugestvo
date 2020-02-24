@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+{% load i18n sekizai_tags menu_tags cms_tags thumbnail static %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% if object.name %}{{ object.name }}{% else %}{% page_attribute 'page_title' %}
+    {% endif %}{% endblock %}</title>
+    <meta name="description" Content="{% block keywords %}{% if  request.current_page.keywords.count %}{{ request.current_page.keywords.all.0.text }}{% endif %}{% endblock %}"/>
+    <meta name="keywords" Content="{% block description %}{% page_attribute "meta_description" %}{% endblock %}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/reset.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/owl.carousel.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/jquery.fancybox.min.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/jquery.formstyler.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/jquery.formstyler.theme.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/datepicker.min.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css?ver=1"/>
+{% render_block 'css' %}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="{% static 'django_ajax/js/jquery.ajax.min.js' %}"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.maskedinput.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/owl.carousel.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.fancybox.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.formstyler.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/datepicker.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/main.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/utils.js"></script>
+{% render_block 'js' %}
+    <!--[if IE]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link rel="icon" type="image/png" href="{{ STATIC_URL }}images/favicon.png">
+</head>
+<body>
+{% cms_toolbar %}
+<div id="container">
+    <div class="header">
+
+        <div class="top-part">
+                <div class="container">
+                    <a href="/" class="logo fll">
+                        <img src="{{ STATIC_URL }}images/logo.png" alt=""/>
+                    </a>
+
+                    <div class="slogan fw300 fll">
+                        инновационные
+                        <br/>виртуальные
+                        <br/>коммуникации
+                    </div>
+
+                    <div data-menu="#main-menu" class="burger burger1 fll">
+                        <div></div>
+                    </div>
+
+
+                    <div class="flr">
+
+                    {% if user.is_active %}
+                    <div class="top-aut-user imf fll">
+                            <div class="title">Вы вошли как:</div>
+                            <div class="block-tbl">
+                                <div class="cell user">
+                                   {% if user.profiles.type_user == 'ur' %} <a href="{% url 'profiles' %}" class="company">{{ user.prifiles.company }}</a>{% endif %}
+                                    <a href="{% url 'profiles' %}" class="nameuser">{{ user.get_full_name|default:user.email }}</a>
+                                </div>
+                                <div class="cell ico"><span></span></div>
+                                <div class="cell"><a href="{% url 'logout' %}">Выход</a></div>
+                            </div>
+                        </div>
+                    {% else %}
+                         <div class="enter fll">
+                     <a href="#login" data-fancybox class="fw300 fll">
+                                Вход
+                            </a> <span class="fll"></span> <a href="#registration" data-fancybox class="fw300 fll">
+                                Регистрация
+                            </a>
+                         </div>
+                    {% endif %}
+
+
+
+                        <a href="#call-back" data-fancybox class="green-btn fw300 c-white fll">Заказать звонок</a>
+{% static_placeholder 'header' %}
+                    </div>
+                    <div class="clr"></div>
+                </div>
+            </div>
+        <div class="bot-part">
+                <div class="container">
+                    <div id="main-menu" class="menu-wrapper">
+                        <div class="menu-close"></div>
+                        <div class="menu fw300">
+                            <ul>
+                                {% show_menu 0 100 100 100 'menus/menu.html' %}
+                            </ul>
+
+                            <div class="hide-part">
+
+
+                                <div class="search-form">
+
+                                    <div class="search">
+                                        <form action="/search/">
+                                        <input value="{{ request.GET.q }}" name="q" placeholder="Поиск по сайту" type="text"/>
+                                            </form>
+                                    </div>
+
+                                </div>
+                                <a href="#" class="search-btn">
+
+                                </a>
+
+                                <div class="enter">
+{% if user.is_active %}
+                <a href="{% url 'profiles' %}" class="enter fw300 fll"> Личный кабинет
+                                    </a>
+    <span class="fll">/</span> <a href="{% url 'logout' %}" class="fw300 fll">
+                                Выход
+                            </a>
+                {% else %}
+                                    <a href="#login" data-fancybox class="fw300">
+                                        Вход
+                                    </a> <span class="fll">/</span> <a href="#registration" data-fancybox class="fw300 fll">
+                                        Регистрация
+                                    </a>
+                                {% endif %}
+
+
+                                </div>
+
+                                <a href="#call-back" data-fancybox class="green-btn fw300 c-white">Заказать звонок</a>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="search-form">
+
+                        <div class="search">
+                            <form action="/search/">
+                            <input name="q" value="{{ request.GET.q }}" placeholder="Поиск по сайту" type="text"/>
+                                </form>
+                        </div>
+
+                    </div>
+                    <a href="#" class="search-btn">
+
+                    </a>
+
+
+                </div>
+            </div>
+
+    </div>
+{% block center %}
+{% placeholder content %}
+{% endblock %}
+{% block botton_c %}
+
+        {% endblock %}
+
+    <div class="footer">
+        <div class="container">
+
+            <div class="item copy fll">
+                <a href="/" class="logo fll"><img src="{{ STATIC_URL }}images/logo.png" alt=""/></a>
+
+                <div class="slogan fw300 fll">
+                    инновационные
+                    <br>виртуальные
+                    <br>коммуникации
+                </div>
+
+                <div class="clr"></div>
+
+                <p class="first fw300">
+                    &copy; 2018 «АКВАЛИС ТЕЛЕКОМ»
+
+                    <br/>Самый надёжный оператор связи
+                </p>
+
+                <p class="akv2 fw300">
+
+
+                    <a class="logo" target="_blank" href="http://www.akvalis.ru/"><img src="{{ STATIC_URL }}images/pic2.png" alt=""/></a>
+                    &copy; 2007 «Группа компаний АКВАЛИС»
+                    <br/>Системный интегратор
+
+                </p>
+
+            </div>
+
+            <div class="item footer-menu fll">
+                <strong>Меню</strong>
+                <ul>
+                    {% show_menu 0 0 0 0 %}
+                </ul>
+            </div>
+
+
+{% static_placeholder 'footer' %}
+            <div class="clr"></div>
+        </div>
+    </div>
+</div>
+<div id="registration" class="popup registration">
+    <div class="ins">
+        <h3>Регистрация</h3>
+        <div class="tabs">
+            <a class="active" href="#area1"><span>Физическое лицо</span></a>
+            <a href="#area2"><span>Юридическое лицо</span></a>
+
+            <div class="clr"></div>
+        </div>
+
+
+        <div id="area1" style="display: block;" class="mini-area">
+
+            <div class="hint">* - Поля отмеченные звездочкой обязательны для заполнения</div>
+
+
+            <form class="ajaxForm" action="/registration/">
+                <div class="form">
+                    <input type="hidden" name="type_user" value="fis"/>
+                    <div class="item req">
+
+                        <input name="name" placeholder="ФИО *" type="text"/>
+
+                    </div>
+
+                    <div class="item">
+
+                        <div class="form-item fll req">
+                            <input name="email" placeholder="E-mail *" type="text"/>
+                        </div>
+
+
+                        <div class="form-item flr req">
+                            <input name="phone" placeholder="Телефон *" type="text"/>
+                        </div>
+
+                        <div class="clr"></div>
+
+                    </div>
+
+
+                    <div class="item">
+                        <div class="form-item fll req">
+                            <input name="zip" placeholder="Почтовый индекс *" type="text"/>
+                        </div>
+                        <div class="form-item flr req">
+                            <input name="region" placeholder="Регион (область, край, республика) *" type="text"/>
+                        </div>
+                        <div class="clr"></div>
+                    </div>
+                    <div class="item">
+                        <div class="form-item fll req">
+                            <input name="city" placeholder="Город *" type="text"/>
+                        </div>
+                        <div class="form-item flr req">
+                            <input name="street" placeholder="Улица *" type="text"/>
+                        </div>
+                        <div class="clr"></div>
+                    </div>
+
+                    <div class="item">
+                        <div class="form-item fll">
+                            <div class="form-item-small fll req">
+                                <input name="build" placeholder="Дом *" type="text"/>
+                            </div>
+                            <div class="form-item-small flr">
+                                <input name="flat" placeholder="Квартира" type="text"/>
+                            </div>
+
+                        </div>
+
+                        <div class="form-item flr">
+                            <a href="#" class="ofert fll"><span>Договор<br/>оферты</span></a>
+
+                            <button class="green-btn flr c-white fw300">зарегистрироваться</button>
+                        </div>
+                        <div class="clr"></div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div id="area2" class="mini-area">
+
+            <div class="hint">* - Поля отмеченные звездочкой обязательны для заполнения</div>
+
+            <form action="/registration/" class="ajaxForm">
+                <input type="hidden" name="type_user" value="ur"/>
+                <div class="form">
+                    <div class="item req">
+                        <input name="company" placeholder="Наименование организации" type="text"/>
+                    </div>
+
+                    <div class="item">
+
+                        <div class="form-item fll req">
+                            <input name="email" placeholder="E-mail *" type="text"/>
+                        </div>
+
+
+                        <div class="form-item flr req">
+                            <input name="type_company" placeholder="Форма организации *" type="text"/>
+                        </div>
+
+                        <div class="clr"></div>
+
+                    </div>
+
+                    <div class="item">
+                        <div class="form-item fll req">
+                            <input name="inn" placeholder="ИНН *" type="text"/>
+                        </div>
+                        <div class="form-item flr req">
+                            <input name="kpp" placeholder="КПП *" type="text"/>
+                        </div>
+                        <div class="clr"></div>
+                    </div>
+                    <div class="item">
+                        <div class="form-item fll req">
+                            <input name="bank" placeholder="Банк *" type="text"/>
+                        </div>
+                        <div class="form-item flr req">
+                            <input name="check_acc" placeholder="Расчетный счет *" type="text"/>
+                        </div>
+                        <div class="clr"></div>
+                    </div>
+                    <div class="item">
+                        <div class="form-item fll req">
+                                <input name="ajust_acc" placeholder="Кор. счет *" type="text"/>
+                        </div>
+
+                        <div class="form-item flr req">
+                            <input name="bik" placeholder="БИК *" type="text"/>
+                        </div>
+                        <div class="clr"></div>
+
+
+                    </div>
+
+
+                    <div class="item">
+                        <div class="form-item fll req">
+                            <input name="name_ceo" placeholder="ФИО руководителя *" type="text"/>
+                        </div>
+                        <div class="form-item flr req">
+                            <input name="phone" placeholder="Номер телефона *" type="text"/>
+                        </div>
+                        <div class="clr"></div>
+                    </div>
+
+                    <div class="item">
+                        <div class="form-item req fll">
+                            <input name="email_ceo" placeholder="E-mail для связи *" type="text"/>
+                        </div>
+                        <div class="form-item req count-place flr">
+                            <a href="" class="count minus">-</a>
+                            <input name="count_line" value="1" min="1" step="1" placeholder="Количество линий *" type="text"/>
+                            <a href="" class="plus count">+</a>
+                        </div>
+                        <div class="clr"></div>
+                    </div>
+
+                    <div class="item">
+                        <div class="form-item fll">
+                            <div class="wrap">
+                                <input data-placeholder="Прикрепить скан документа" name="file" type="file"/>
+                            </div>
+
+                            <a href="#" class="add">Добавить еще</a>
+                        </div>
+                        <div class="form-item flr">
+                        <button class="green-btn flr c-white fw300">зарегистрироваться</button>
+
+                        </div>
+
+                        <div class="clr"></div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+
+    </div>
+</div>
+
+
+<div id="call-back" class="popup call-back">
+    <div class="ins">
+<form action="/feedback/" class="ajaxForm">
+        <h3>Заказать звонок</h3>
+
+
+        <div class="form">
+            <div class="item">
+                <div class="form-item fll req">
+                    <input name="name" placeholder="Ваше имя" type="text"/>
+                </div>
+                <div class="form-item fll req">
+                    <input name="phone" placeholder="Телефон" type="text"/>
+                </div>
+                <div class="clr"></div>
+            </div>
+            <input name="feed_type" type="hidden" value="call"/>
+            <button class="green-btn fw700" type="submit">Заказать</button>
+        </div>
+</form>
+
+    </div>
+</div>
+
+
+<div id="login" class="popup call-back login">
+    <div class="ins">
+<form action="/login/" class="ajaxForm">
+        <h3>Вход</h3>
+<p class="errors"></p>
+
+        <div class="form">
+            <div class="item">
+                <div class="form-item req">
+                    <input name="email" placeholder="Логин" type="text"/>
+                </div>
+                <div class="form-item req">
+                    <input name="password" placeholder="Пароль" type="password"/>
+                </div>
+
+                <div class="form-item">
+                <div class="g-recaptcha" data-size="normal" data-sitekey="6LdJXD4UAAAAAO4SB8m-ewMRdDGbazLJszPFLAsv"></div>
+                </div>
+                <div class="clr"></div>
+                <p class="wrap">
+
+            <a href="#forgot" class="reg-btn c-white reg-auth">Забыли пароль?</a>
+
+        </p>
+            </div>
+
+            <input name="feed_type" type="hidden" value="call"/>
+            <button class="green-btn fw700" type="submit">Отправить</button>
+        </div>
+</form>
+        <p class="wrap">
+
+            <a href="#registration" class="reg-btn c-white reg-auth">Регистрация</a>
+
+        </p>
+
+    </div>
+</div>
+
+<div id="forgot" class="popup call-back login">
+    <div class="ins">
+<form action="/restore_password/" class="ajaxForm">
+        <h3>Восстановление пароля</h3>
+<p class="errors"></p>
+        <div class="form">
+            <div class="item">
+                <div class="form-item req">
+                    <input name="email" placeholder="Введите email" type="text"/>
+                </div>
+
+                <div class="clr"></div>
+            </div>
+            <button class="green-btn fw700" type="submit">Отправить</button>
+        </div>
+</form>
+    </div>
+</div>
+
+<div id="order_form" class="popup call-back">
+    <div class="ins">
+<form action="/feedback/" class="ajaxForm">
+        <h3>Заказать тариф</h3>
+
+
+        <div class="form">
+            <div class="item">
+                <div class="form-item fll req">
+                    <input name="name" placeholder="Ваше имя" type="text"/>
+                </div>
+                <div class="form-item fll req">
+                    <input name="phone" placeholder="Телефон" type="text"/>
+                </div>
+                <div class="clr"></div>
+            </div>
+            <input name="tariff" type="hidden" value=""/>
+            <input name="feed_type" type="hidden" value="tariff"/>
+            <button class="green-btn fw700" type="submit">Заказать</button>
+        </div>
+</form>
+
+    </div>
+</div>
+
+
+<div id="success" class="popup call-back">
+    <div class="ins">
+        <h3>Спасибо, Ваша заявка принята!</h3>
+
+        <p>В ближайшее время мы с Вами свяжемся.</p>
+    </div>
+</div>
+
+<div id="success_text" class="popup call-back">
+    <div class="ins">
+
+    </div>
+</div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+{% load template_tags %}
+{% if plugin.inner %}
+    <div class="items">
+                {% for item in plugin.tariffs.all %}
+                    <div class="item">
+                        <div class="top">
+                            <div class="price">
+                                <span class="c-green">{{ item.price|price }}</span> Руб/мес
+                            </div>
+
+                            <span class="name fw500">{{ item.name }}</span>
+                        </div>
+
+                        <div class="desc fw300">
+                            {{ item.short }}
+                        </div>
+
+                        <div class="bottom">
+                            <a href="#" class="green-btn fll fw300 c-white order_btn" data-id="{{ item.id }}">
+                                подключить
+                            </a>
+
+                            <a href="{{ item.get_absolute_url }}" class="more fw300 flr">Подробно</a>
+                        </div>
+                    </div>
+                    {% if forloop.last or forloop.counter|divisibleby:3 %}
+                    <div class="clr"></div>
+                    {% endif %}
+                    {% endfor %}
+
+
+
+                </div>
+{% else %}
+<div class="tarifs {{ plugin.style|default:'' }}"{% if plugin.anchor %} id="{{ plugin.anchor }}"{% endif %}>
+        <div class="container">
+            {% if plugin.name %}<h2 class="fw300">{{ plugin.name|default:'' }}</h2>{% endif %}
+{% for item in plugin.tariffs.all %}
+            <div class="item fll">
+                <div class="top-part">
+                    <div class="name fw300">{{ item.name }}</div>
+
+                    <div class="price fw300"><span class="c-green">{{ item.price|price }}</span> Руб/мес</div>
+                </div>
+
+
+                <div class="desc">
+                    <p class="fw300">
+                        {{ item.short }}
+                    </p>
+                </div>
+
+                <div class="bot-part">
+                    <a href="#" data-id="{{ item.id }}" class="green-btn order_btn">Заказать</a>
+                </div>
+
+                <div class="more fw300">
+                    <a href="{{ item.get_absolute_url }}">Подробнее</a>
+                </div>
+
+            </div>
+    {% if forloop.last or forloop.counter|divisibleby:4 %}
+            <div class="clr"></div>
+{% endif %}
+        {% endfor %}
+
+
+            <a href="{% url 'tariffs' %}" class="op-btn d-green fw300">Все тарифы</a>
+        </div>
+    </div>
+
+{% endif %}

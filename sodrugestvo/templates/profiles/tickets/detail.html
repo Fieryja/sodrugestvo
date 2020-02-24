@@ -1,0 +1,81 @@
+{% extends 'profiles/profile.html' %}
+{% block title %}{{ object.theme }}{% endblock %}
+{% block inner_center %}
+    <div class="front-box tickets-page ticket-add imf">
+        <h2>Поддержка</h2> <a class="c-blue" href="{% url 'profiles_ticket' %}">Смотреть все тикеты</a>
+    {% if not object.close %}
+    <div class="buttons" style="float: right; text-align: center;">
+                        <a href="{{ object.get_absolute_url }}close/" class="green-btn c-white fw300">Закрыть</a>
+                    </div>
+    {% endif %}
+{% with last=object.get_last_answer %}
+        <div class="ticket-items single-item">
+            <div class="item">
+                <div class="top-part">
+                    <div class="status{% if not object.close %} green{% endif %}">
+                        {% if object.close %}Закрыт{% else %}{% if last and last.user != object.user %}Ожидает вашего ответа{% else %}Ожидает ответа специалиста{% endif %}{% endif %}
+                    </div>
+                    <span class="c-gray">{{ object.date|date:'d.m.Y' }}</span><span
+                        class="c-gray">№{{ object.id }}</span>
+                </div>
+
+                <p>{{ object.theme }}</p>
+
+                <div class="quest">
+                    {{ object.comment }}
+                    {% if object.ticket_file %}
+                    <br><br><a class="c-blue" href="{{ object.ticket_file.url }}" target="_blank">Прикреплённый файл</a>
+                    {% endif %}
+                </div>
+
+                <div class="spec">{% if last and last.user != object.user %}Специалист {{ last.user.get_full_name }} {% endif %}({{ object.departament }})</div>
+
+            </div>
+
+        </div>
+{% endwith %}
+        <div class="correspondence">
+            {% for item in object.answers.all %}
+            <div class="item">
+                <div class="{% if item.user != object.user %}answer{% else %}comment{% endif %} arrow_box">
+                    {{ item.answer }}
+                {% if item.file %}
+                    <br><br><a class="c-blue" href="{{ item.file.url }}" target="_blank">Прикреплённый файл</a>
+                    {% endif %}
+                </div>
+
+                <div class="bottom">
+                                <span class="author">
+                                    <span class="fw500">{{ item.user.get_full_name }}</span> ({{ object.departament }})
+                                </span>
+
+                    <span class="c-gray fw500">{{ item.date|date:'d.m.Y' }}</span>
+                    <span class="c-gray">№{{ object.id }}-{{ item.id }}</span>
+
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+{% if not object.close %}
+        <form action="." method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form create-form">
+                <h3 class="fw500">Ответить</h3>
+                <input type="hidden" name="user" value="{{ request.user.id }}"/>
+                <input type="hidden" name="ticket" value="{{ object.id }}"/>
+                <div class="item">
+                    {{ form.answer }}
+                </div>
+
+                <div class="bot-part">
+                    <button class="green-btn c-white fw300" type="submit">Отправить</button>
+                    <input data-placeholder="Прикрепить файлы" name="file" type="file"/>
+                </div>
+            </div>
+        </form>
+    {% endif %}
+
+
+    </div>
+{% endblock %}

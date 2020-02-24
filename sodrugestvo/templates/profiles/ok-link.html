@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Регистрация подтверждена{% endblock %}
+{% load template_tags mptt_tags %}
+{% block center %}
+<div class="decisions">
+                <div class="container">
+
+                    <div class="text-part" style="padding: 50px 0;">
+                        <div class="title">
+                            <h1>Регистрация подтверждена</h1>
+                        </div>
+                        <p> Ваш логин и пароль отправлены на указанную при регистрации почту.</p>
+                        <br/>
+                        <a href="{% url 'profiles' %}" style="color: #00aaee;" class="c-blue">Перейти в личный кабинет</a>
+
+                    </div>
+
+                    <div class="clr"></div>
+                </div>
+
+            </div>
+
+
+
+{% endblock %}
