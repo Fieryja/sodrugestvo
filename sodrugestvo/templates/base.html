@@ -25,34 +25,7 @@
 	  <div class="bg-top navbar-light">
     	<div class="container">
     		<div class="row no-gutters d-flex align-items-center align-items-stretch">
-    			<div class="col-md-4 d-flex align-items-center py-4">
-    				<a class="navbar-brand" href="index.html">Consolution</a>
-    			</div>
-	    		<div class="col-lg-8 d-block">
-		    		<div class="row d-flex">
-					    <div class="col-md d-flex topper align-items-center align-items-stretch py-md-4">
-					    	<div class="icon d-flex justify-content-center align-items-center"><span class="icon-paper-plane"></span></div>
-					    	<div class="text">
-					    		<span>Email</span>
-						    	<span>youremail@email.com</span>
-						    </div>
-					    </div>
-					    <div class="col-md d-flex topper align-items-center align-items-stretch py-md-4">
-					    	<div class="icon d-flex justify-content-center align-items-center"><span class="icon-phone2"></span></div>
-						    <div class="text">
-						    	<span>Call</span>
-						    	<span>Call Us: + 1235 2355 98</span>
-						    </div>
-					    </div>
-					    <div class="col-md topper d-flex align-items-center justify-content-end">
-					    	<p class="mb-0 d-block">
-					    		<a href="#" class="btn py-2 px-3 btn-primary">
-					    			<span>Free Consulting</span>
-					    		</a>
-					    	</p>
-					    </div>
-				    </div>
-			    </div>
+    			{% static_placeholder 'header' %}
 		    </div>
 		  </div>
     </div>
@@ -72,33 +45,7 @@
     <!-- END nav -->
 {% block center %}
   {% placeholder contents %}
-    <section class="home-slider owl-carousel">
-      <div class="slider-item" style="background-image:url(images/bg_1.jpg);">
-      	<div class="overlay"></div>
-        <div class="container">
-          <div class="row no-gutters slider-text align-items-center justify-content-start" data-scrollax-parent="true">
-          <div class="col-md-7 ftco-animate">
-          	<span class="subheading">Welcome to Consolve</span>
-            <h1 class="mb-4">We Are The Best Consulting Agency</h1>
-            <p><a href="#" class="btn btn-primary px-4 py-3 mt-3">Our Services</a></p>
-          </div>
-        </div>
-        </div>
-      </div>
 
-      <div class="slider-item" style="background-image:url(images/bg_2.jpg);">
-      	<div class="overlay"></div>
-        <div class="container">
-          <div class="row no-gutters slider-text align-items-center justify-content-start" data-scrollax-parent="true">
-          <div class="col-md-7 ftco-animate">
-          	<span class="subheading">Todays Talent, Tommorow Success</span>
-            <h1 class="mb-4">We Help to Grow Your Business</h1>
-            <p><a href="#" class="btn btn-primary px-4 py-3 mt-3">Our Services</a></p>
-          </div>
-        </div>
-        </div>
-      </div>
-    </section>
 
 		<section class="ftco-section">
 			<div class="container">

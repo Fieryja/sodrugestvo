@@ -7,7 +7,6 @@ from filer.fields.image import FilerImageField
 
 class SliderPluginModel(CMSPlugin):
     name = models.CharField(max_length=255, verbose_name=u'Заголовок')
-    sub_name = models.CharField(max_length=255, verbose_name=u'Подзаголовок')
     text = models.CharField(verbose_name=u'Текст', blank=True, null=True, max_length=255)
     html = models.TextField(verbose_name=u'html', blank=True, null=True)
     image = FilerImageField(related_name='sliders', verbose_name=u'Изображение', on_delete=models.PROTECT)
