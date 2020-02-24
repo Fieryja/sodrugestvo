@@ -1,5 +1,4 @@
-from uuid import uuid4
-
+# coding=utf-8
 from django import forms
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.files.base import ContentFile

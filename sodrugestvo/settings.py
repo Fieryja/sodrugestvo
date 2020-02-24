@@ -61,8 +61,7 @@ THUMBNAIL_PROCESSORS = (
 
 CMS_TEMPLATES = (
     ('base.html', u'Главная'),
-    ('front.html', u'Внутренние страницы'),
-    ('inner.html', u'Страница с подменю'),
+    ('inner.html', u'Внутренние страницы'),
 )
 
 MIDDLEWARE = [
