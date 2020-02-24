@@ -1,0 +1,14 @@
+{% load thumbnail %}
+<div class="screenbox">
+    <div class="container tb">
+        <h2 class="decor">{{ plugin.name }}</h2>
+        <div class="news-list flex-list interval-40 column-4">
+            {% for item in news %}
+                {% include 'contents/includes/news-small.html' %}
+            {% endfor %}
+        </div>
+        <div class="more-all-box">
+            <a href="{% url 'news' %}" class="btn more-all thiscenter">{{ blocks.all_news }}</a>
+        </div>
+    </div>
+</div>

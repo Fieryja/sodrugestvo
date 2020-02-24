@@ -1,0 +1,19 @@
+{% load thumbnail %}
+<div class="item">
+    <div class="info-box">
+        <a href="https://www.youtube.com/embed/{{ item.video }}" data-type="iframe"
+           data-fancybox="videos{{ plugin.id }}" class="photo-box">
+            {% if item.image %}
+                <img src="{% thumbnail item.image '260x200' crop %}">
+            {% else %}
+                <img src="https://img.youtube.com/vi/{{ item.video }}/hqdefault.jpg">
+            {% endif %}
+            <span class="shadow"></span>
+            <span class="play">{{ blocks.watch }}</span>
+        </a>
+        <a href="https://www.youtube.com/embed/{{ item.video }}" data-type="iframe"
+           data-fancybox="videos{{ plugin.id }}" class="title">
+            {{ item.name }}
+        </a>
+    </div>
+</div>

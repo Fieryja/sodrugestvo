@@ -1,0 +1,19 @@
+{% extends 'front.html' %}
+{% load thumbnail %}
+{% block title %}{{ object.name }}{% endblock %}
+{% block content %}
+    <div class="page-subtitle">
+        <h2>{{ object.name }}</h2>
+    </div>
+    <div class="front-content-box">
+        <div class="photo-gallery-list flex-list interval-40 column-6">
+            {% for item in object.gallery.files.all %}
+                <div class="item">
+                    <a href="{{ item.url }}" data-fancybox="grp-01" class="photo-box">
+                        <img src="{% thumbnail item '160x160' crop %}">
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

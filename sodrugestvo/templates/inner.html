@@ -1,38 +1,7 @@
-{% extends 'base.html' %}
-{% load sekizai_tags menu_tags cms_tags %}
-{% block center %}
-
-
-<div class="breadcrumb">
-    <div class="container">
-        {% show_breadcrumb  'menus/breadcrumb.html' %}
-{#        <a href="#">Главная</a> <span>/</span> <a href="#">Услуги</a>#}
-        {% block bread %}{% endblock %}
+{% extends 'front.html' %}
+{% load menu_tags %}
+{% block title_menu %}
+    <div class="title multi-title flex-list flex-center-v">
+        {% show_menu 1 1 0 0 'menu/inner.html' %}
     </div>
-</div>
-
-<div class="{% block cont_class %}content{% endblock %}">
-    <div class="container">
-        <div class="left fll">
-            <h2 class="main-title">
-                {% block inner_title %}
-                {% page_attribute 'page_title' %}
-                    {% endblock %}
-
-            </h2>
-         {% block inner_center %}
-             {% placeholder content %}
-             {% endblock %}
-
-        </div>
-    {% block inner_right %}
-        {% placeholder right_block %}
-        {% endblock %}
-    <div class="clr"></div>
-
-    </div>
-</div>
-
-
-
 {% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'front.html' %}
+{% block title %}{% if object.meta_title %}{{ object.meta_title }}{% else %}{{ object.name }}{% endif %}{% endblock %}
+{% block meta_keywords %}{{ object.meta_keywords|default:'' }}{% endblock %}
+{% block meta_description %}{{ object.meta_description|default:'' }}{% endblock %}
+{% block meta %}
+        <meta content="http://{{ request.get_host }}media/static/images/about.jpg" data-page-subject="true"
+              property="og:image"/>
+        <meta property="og:title" content="{{ object.name }}"/>
+        <meta property="og:url" content="http://{{ request.get_host }}{{ request.path }}"/>
+        <meta property="og:description" content="{{ object.text|striptags|truncatewords:10 }}"/>
+        <meta property="og:type" content="website"/>
+    {% endblock %}
+{% block content %}
+<div class="concert-promo-box row-t wdt100">
+                        <a class="concert-box">
+                            <span class="row-t wdt100">
+                                <span class="info-box dark-box">
+                                    <span class="sity-box row-t fs24">
+                                        <span class="sity-block c-yel">
+                                            <span class="sity">{{ object.city }}</span>
+                                            {% if object.country %}<span class="land">({{ object.country }})</span>{% endif %}
+                                        </span>
+                                    </span>
+                                    <span class="title">
+                                        {{ object.name }}
+                                    </span>
+                                </span>
+                                <span class="date-box">
+                                    <span class="year">{{ object.date|date:'Y' }}</span>
+                                    <span class="day">{{ object.date|date:'d' }}</span>
+                                    <span class="month">{{ object.date|date:'E' }}</span>
+                                    <span class="time">{{ object.date|date:'G:i' }}</span>
+                                </span>
+                            </span>
+                        </a>
+                        <a href="{% url 'events' %}" class="concert-calendar-box">
+                            <span class="row-t hg100 wdt100">
+                                <span>
+                                   <span class="thiscenter dark-box">
+                                       <span class="ico thiscenter"><img src="{{ STATIC_URL }}images/calendar.svg"></span>
+                                       <span class="title thiscenter ttr">{{ blocks.calendar }}<br>{{ blocks.concerts }}</span>
+                                   </span>
+                               </span>
+                           </span>
+                       </a>
+                   </div>
+    <div class="concert-info-box flex-list sbtw">
+                       <div class="content-txt-box">
+                       {{ object.text|default:''|safe }}
+                    </div>
+                   {% if object.buy_link %} <div class="button-box">
+                        <a href="{{ object.buy_link }}" class="btn btn-big" target="_blank">Купить билет</a>
+                    </div>
+    {% endif %}
+
+                </div>
+{% endblock %}

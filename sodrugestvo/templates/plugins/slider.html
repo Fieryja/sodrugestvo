@@ -1,0 +1,36 @@
+{% if plugin.inner %}
+    <div onclick="location.pathname = '/';" class="header-title-site"{% if plugin.items.all %}{% for i in plugin.items.all %}{% if forloop.first %} style="background-image: url({{ i.image.url }});"{% endif %}{% endfor %}{% endif %}>
+            <div class="container">
+                <div class="info-box flex-list flex-center-v">
+                    <div class="name-box flex-list">
+                        <div class="name">{{ plugin.name|default:'' }}</div>
+                        <div class="family">{{ plugin.sub_name|default:'' }}</div>
+                    </div>
+                    <div class="instrument">
+                        {{ plugin.text|default:'' }}
+                    </div>
+                </div>
+            </div>
+        </div>
+{% else %}
+<div class="top-slider">
+            <div class="info-box">
+                <div class="name-box">
+                    <div class="name">{{ plugin.name|default:'' }}</div>
+                    <div class="family">{{ plugin.sub_name|default:'' }}</div>
+                </div>
+                <div class="instrument">
+                    {{ plugin.text|default:'' }}
+                </div>
+                {{ plugin.html|default:''|safe }}
+            </div>
+            <div class="slider">
+                {% for item in plugin.items.all %}
+                <div class="slide{% if item.white %} white_text{% endif %}">
+                    <img src="{{ item.image.url }}">
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+{% endif %}

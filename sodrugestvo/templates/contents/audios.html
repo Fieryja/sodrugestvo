@@ -1,0 +1,35 @@
+{% extends 'inner.html' %}
+{% block content %}
+    <div class="audio-box">
+        <div class="play-list">
+            {% for item in object_list %}
+            <div class="play-list-item">
+                <div class="title">{{ item.name }}</div>
+                <div class="audio-block">
+                    {% for audio in item.items.all %}
+                    <div class="audio-block-item">
+                    {% if audio.name %}
+                    <div class="subtitle">
+                            {{ audio.name }}
+                        </div>
+                        {% endif %}
+                        <audio src="{{ audio.afile.url }}" id="audio-{{ audio.id }}" preload="none"/>
+                    </div>
+                        {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+        <script src="{{ STATIC_URL }}player/audio.cmd.js"></script>
+    <script>
+      audiojs.events.ready(function() {
+        var as = audiojs.createAll();
+
+        console.log(as);
+    });
+</script>
+{% endblock %}

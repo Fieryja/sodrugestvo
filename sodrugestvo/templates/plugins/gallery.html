@@ -1,0 +1,18 @@
+{% load thumbnail %}
+<div class="screenbox gray-box">
+        <div class="container tb">
+            <h2 class="decor">{{ plugin.name }}</h2>
+            <div class="photo-gallery-list flex-list interval-40 column-6">
+                {% for item in photos %}
+                <div class="item">
+                    <a href="{{ item.url }}" class="photo-box" data-fancybox="gallery{{ plugin.id }}">
+                        <img src="{% thumbnail item '160x160' crop %}">
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="more-all-box">
+                <a href="{% url 'gallery' %}" class="btn more-all thiscenter">{{ blocks.all_photo }}</a>
+            </div>
+        </div>
+    </div>

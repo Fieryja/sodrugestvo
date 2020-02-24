@@ -1,34 +1,35 @@
 # coding=utf-8
+import json
 import os
 import uuid
 from datetime import datetime
-from sorl.thumbnail.base import ThumbnailBackend
-from os.path import basename
-from sorl.thumbnail.helpers import tokey, serialize
-from django.http import HttpResponseRedirect
-from slugify import slugify
 from django.conf import settings
+from django.contrib.sites.models import Site
+from django.core.mail import EmailMessage
+from django.http import HttpResponseRedirect
+from django.template import Context, loader
+from slugify import slugify
 
 
 def get_file_path(instance, filename):
     ext = filename.split('.')[-1]
-    if getattr(instance, 'name', False):
-        filename = "%s.%s" % (slugify(instance.name), ext)
-    elif getattr(instance, 'page', False):
-        filename = "%s.%s" % (slugify(instance.page.get_title()), ext)
-    elif getattr(instance, 'gallery', False):
-        filename = "%s.%s" % (slugify(instance.gallery.name), ext)
-    else:
-        filename = "%s.%s" % (uuid.uuid4(), ext)
+    filename = "%s.%s" % (uuid.uuid4(), ext)
     now = datetime.now()
-    return os.path.join(getattr(settings, 'IMAGE_UPLOAD_TO', 'catalog/'), datetime.strftime(now, '%Y/%m/'), filename)
+    return os.path.join(getattr(settings, 'IMAGE_UPLOAD_TO', 'content/'), datetime.strftime(now, '%Y/%m/'), filename)
 
 
-class SEOThumbnailBackend(ThumbnailBackend):
-    def _get_thumbnail_filename(self, source, geometry_string, options):
-        key = tokey(source.key, geometry_string, serialize(options))
-        path = '%s/%s/%s' % (key[:2], key[2:4], key)
-        return '%s%s/%s' % (settings.THUMBNAIL_PREFIX, path, basename(source.name))
+def create_slug(model, name):
+    slug = slugify(name)
+    slug_test = ''
+    i = 1
+    exists = model.objects.filter(slug=slug).exists()
+    while exists:
+        slug_test = u'%s-%s' % (slug, i)
+        exists = model.objects.filter(slug=slug_test).exists()
+        i += i
+    if slug_test:
+        slug = slug_test
+    return slug
 
 
 def copy_object(modeladmin, request, queryset):
@@ -36,17 +37,7 @@ def copy_object(modeladmin, request, queryset):
         pr.pk = None
         pr.id = None
         try:
-            if pr.slug:
-                pr.slug = slugify(pr.name)[:46]
-                slug_test = ''
-                i = 1
-                exists = modeladmin.model.objects.filter(slug=pr.slug).exists()
-                while exists:
-                    slug_test = u'%s-%s' % (pr.slug, i)
-                    exists = modeladmin.model.objects.filter(slug=slug_test).exists()
-                    i += i
-                if slug_test:
-                    pr.slug = slug_test
+            pr.slug = create_slug(modeladmin.model, pr.name)
         except:
             pass
         pr.save()
@@ -55,3 +46,14 @@ def copy_object(modeladmin, request, queryset):
 
 
 copy_object.short_description = u'Копирование объекта'
+
+
+def send_mail(ctx, template, theme, email=settings.DEFAULT_TO_EMAIL, heads={}):
+    site = Site.objects.get(id=1)
+    context = {'site': site, 'STATIC_URL': settings.STATIC_URL}
+    context.update(ctx)
+    temp = loader.get_template(template)
+    html = (temp.render(context)).encode('utf-8')
+    msg = EmailMessage(theme, html, settings.DEFAULT_FROM_EMAIL, email, heads)
+    msg.content_subtype = "html"
+    msg.send()

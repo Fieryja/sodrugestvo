@@ -1,0 +1,13 @@
+{% load menu_tags %}
+    {% for child in children %}
+        <li class="nav-item {% if child.selected %} active{% endif %}{% if child.ancestor %} ancestor{% endif %}{% if child.children %} parent{% endif %}{% if child.descendant %} descendant{% endif %}">
+            <a  class="nav-link pl-0" href="{{ child.attr.redirect_url|default:child.get_absolute_url }}">{{ child.get_menu_title }}</a>
+            {% if child.children %}
+                <div class="menu-open-level">
+                    <ul>
+                        {% show_menu from_level to_level extra_inactive extra_active template "" "" child %}
+                    </ul>
+                </div>
+            {% endif %}
+        </li>
+    {% endfor %}

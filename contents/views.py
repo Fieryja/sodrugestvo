@@ -1,31 +1,29 @@
-# vim:fileencoding=utf-8
+import calendar
+from datetime import datetime
+from django.shortcuts import render_to_response
 from django.views.generic import DetailView, ListView
-from contents.models import Service
+from .models import News, Robot
 
 
-class ServiceList(ListView):
-    template_name = 'contents/services.html'
-    model = Service
-    context_object_name = 'services'
-
-    def get_queryset(self):
-        qs = super(ServiceList, self).get_queryset().filter(active=True)
-        return qs
-
-    def get_context_data(self, **kwargs):
-        ctx = super(ServiceList, self).get_context_data(**kwargs)
-        return ctx
-
-
-class ServiceDetail(DetailView):
-    model = Service
-    template_name = "contents/service-detail.html"
+class NewsList(ListView):
+    model = News
+    page_template = 'contents/news-endless.html'
+    template_name = 'contents/blog.html'
 
     def get_queryset(self):
-        qs = super(ServiceDetail, self).get_queryset().filter(active=True)
+        qs = super(NewsList, self).get_queryset().filter(active=True)
         return qs
 
-    def get_context_data(self, **kwargs):
-        ctx = super(ServiceDetail, self).get_context_data(**kwargs)
-        ctx['services'] = Service.objects.filter(active=True)
-        return ctx
+
+class NewsDetail(DetailView):
+    model = News
+    template_name = 'contents/blog-detail.html'
+
+    def get_queryset(self):
+        qs = super(NewsDetail, self).get_queryset().filter(active=True)
+        return qs
+
+
+def robots(request):
+    ctx = {'robots': Robot.objects.all()}
+    return render_to_response('contents/robots.txt', ctx, content_type="text/plain")

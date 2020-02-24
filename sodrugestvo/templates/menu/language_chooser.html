@@ -1,0 +1,12 @@
+{% load i18n menu_tags %}
+
+{% if languages|length > 1 %}
+    <div class="language-box flex-list">
+{% for language in languages %}
+{% if current_language == language.0 %}<div class="current">{{ language.0 }}</div> {% else %}
+    <a href="{% page_language_url language.0 %}" class="yel-hover">{{ language.0 }}</a>
+    {% endif %}
+{% endfor %}
+    </div>
+{% endif %}
+

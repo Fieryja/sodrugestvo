@@ -5,21 +5,28 @@
                 <tr>
                     <td style="border:  1px solid #dddcdc; background: #fff; padding:  15px;">
                         <h1 style="font-size: 28px; padding: 0; margin:  0 0 20px; font-weight: normal;">Здравствуйте, на сайте {{ site }} поступила новая заявка.</h1>
-                      {% if form.feed_type %}  <p style="margin:  0 0 15px; color: #575757; padding: 0;"><span style="margin-right:  10px;">Тип обращения:</span>{{ form.get_feed_type_display }}
-                        </p>{% endif %}
+
+                     <p style="margin:  0 0 15px; color: #575757; padding: 0;"><span style="margin-right:  10px;">Тип заявки:</span>{{ form.get_type_choice_display }}
+                        </p>
                       {% if form.name %}  <p style="margin:  0 0 15px; color: #575757; padding: 0;"><span style="margin-right:  10px;">Имя:</span>{{ form.name }}
                         </p>{% endif %}
+
                         {% if form.phone %}<p style="margin:  0 0 15px; color: #575757; padding: 0;"><span style="margin-right:  10px;">Телефон:</span>{{ form.phone }}
                         </p>{% endif %}
+
+                        {% if form.company %}<p style="margin:  0 0 15px; color: #575757; padding: 0;">
+                            <span style="margin-right:  10px;">Организация:</span>{{ form.company }}
+                        </p>{% endif %}
+
                         {% if form.email %}<p style="margin:  0 0 15px; color: #575757; padding: 0;"><span style="margin-right:  10px;">E-mail:</span>{{ form.email }}
                         </p>{% endif %}
-                        {% if form.comment %}<p style="margin:  0 0 15px; color: #575757; padding: 0;">
-                            <span style="margin-right:  10px;">Коментарий:</span>{{ form.comment }}
+
+                        {% if form.comment %}<p style="margin:  0 0 15px; color: #575757; padding: 0;"><span style="margin-right:  10px;">Комментарий:</span><br/>{{ form.comment }}
                         </p>{% endif %}
-                        {% if form.tariff %}<p style="margin:  0 0 15px; color: #575757; padding: 0;">
-                            <span style="margin-right:  10px;">Тариф:</span>{{ form.tariff.name }}
-                        </p>{% endif %}
+
                     </td>
+
                 </tr>
             </table>
+
 {% endblock %}

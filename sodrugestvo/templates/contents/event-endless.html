@@ -1,0 +1,42 @@
+{% load el_pagination_tags template_tags %}
+{% paginate 9,9 object_list %}
+<div class="concerts-boxes">
+    <div class="box">
+    {% by_date object_list as list %}
+        {% for key, values in list.items %}
+            <div class="box-title">{{ key }}</div>
+            <div class="concert-list flex-list column-3 interval-40">
+            {% for item in values %}
+                <div class="item">
+                    <a href="{{ item.get_absolute_url }}" class="block">
+                    <span class="top-info">
+                                        <span class="date-box db">
+                                            <span class="day">{{ item.date|date:'d' }}</span>
+                                            <span class="month">{{ item.date|date:'E' }}</span>
+                                        </span>
+                        <span class="sity-block c-yel db">
+                                            <span class="sity fw400"><b>{{ item.city }}</b></span>
+                            {% if item.country %}
+                                <span class="land">({{ item.country }})</span>
+                            {% endif %}
+                                        </span>
+                        <span class="title db">
+                                            {{ item.name }}
+                                        </span>
+                        <span class="venue db fw400">
+                                            {{ item.place|default:'' }}
+                                        </span>
+                        <span class="time fs14 fw400">{{ blocks.start }} <b>{{ item.date|date:'G:i' }}</b>
+                        </span>
+                        </span>
+                    <span class="bottom-box">
+                        <span class="more-arrow tbl">{{ blocks.more }}</span>
+                        </span>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% show_pages %}

@@ -1,16 +1,26 @@
-from codemirror2.widgets import CodeMirrorEditor
-from django import forms
+# vim:fileencoding=utf-8
 from django.contrib import admin
 from sodrugestvo.utils import copy_object
-from models import FeedBack, Service, Blog
+from .models import News, Robot, FeedBack, Block
 
 
-admin.site.register(Blog)
-admin.site.register(Service)
+class NewsAdmin(admin.ModelAdmin):
+    actions = [copy_object]
+    prepopulated_fields = {"slug": ("name",)}
+    search_fields = ['name']
+    list_display = ['name', 'active', 'date']
+    list_editable = ['active']
 
 
-class FeedAdmin(admin.ModelAdmin):
-    list_display = ['__unicode__', 'date']
+class FeedBackAdmin(admin.ModelAdmin):
+    list_display = ['name', 'date']
 
 
-admin.site.register(FeedBack, FeedAdmin)
+class BlockAdmin(admin.ModelAdmin):
+    list_display = ['name', 'comment']
+
+
+admin.site.register(FeedBack, FeedBackAdmin)
+admin.site.register(News, NewsAdmin)
+admin.site.register(Block, BlockAdmin)
+admin.site.register(Robot)

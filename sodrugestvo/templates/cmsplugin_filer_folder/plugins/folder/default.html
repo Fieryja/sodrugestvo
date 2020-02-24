@@ -1,0 +1,41 @@
+{% load i18n thumbnail sekizai_tags staticfiles %}
+{% addtoblock "css" %}<link rel="stylesheet" type="text/css" href="{% static 'cmsplugin_filer_folder/css/slideshow.css' %}" media="screen, projection" />{% endaddtoblock "css" %}
+{% addtoblock "js" %}<script type="text/javascript" src="{% static 'cmsplugin_filer_folder/js/jquery.cycle.lite-1.7.js' %}"></script>{% endaddtoblock "js" %}
+{% addtoblock "js" %}
+<script type="text/javascript">
+//<![CDATA[
+jQuery(document).ready(function ($) {
+    $('.cmsplugin_filer_folder_slideshow').cycle({
+        fx: 'fade'
+    });
+});
+//]]>
+</script>
+{% endaddtoblock %}
+
+{% if object.view_option == "list" %}
+    <div class="files-list-box cnt-column-3">
+        {% for files in folder_files %}
+                    <a href="{{ files.url }}" target="_blank" class="item row-t">
+                        <span class="ico">
+                            <img src="{{ STATIC_URL }}images/ico-file.svg">
+                        </span>
+                        <span class="info">
+                            <span class="title">{{ files }}</span>
+                            <span class="download">{{ blocks.download }}</span>
+                        </span>
+                    </a>
+    {% endfor %}
+
+                </div>
+
+
+{% else %}
+    <!-- start: slideshow -->
+    <div class="cmsplugin_filer_folder_slideshow" id="folder_{{ object.id }}">
+        {% for image in folder_images %}
+            <img src="{% thumbnail image.file 200x200 crop="True" upscale="True" %}">
+        {% endfor %}
+    </div>
+    <!-- end: gallery -->
+{% endif %}

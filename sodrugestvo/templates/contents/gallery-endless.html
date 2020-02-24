@@ -1,0 +1,23 @@
+{% load el_pagination_tags thumbnail %}
+{% paginate 16,16 object_list %}
+<div class="news-list flex-list interval-40 column-4">
+    {% for item in object_list %}
+        <div class="item">
+            <div class="info-box">
+                <a href="{{ item.get_absolute_url }}" class="photo-box">
+                    <img src="{% thumbnail item.get_first_photo '260x200' crop upscale %}">
+                    <span class="shadow"></span>
+                    <span class="photos-num">{{ item.gallery.files.count }} фото</span>
+                </a>
+                {% if item.sub_name %}
+                <a href="{{ item.get_absolute_url }}" class="first-title">
+                                     {{ item.sub_name }}
+                                </a>{% endif %}
+                <a href="{{ item.get_absolute_url }}" class="title">
+                    {{ item.name }}
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% show_pages %}

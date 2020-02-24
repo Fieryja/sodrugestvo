@@ -1,0 +1,20 @@
+{% load thumbnail %}
+<div class="item">
+    <div class="info-box">
+        <a href="{{ item.get_absolute_url }}" class="photo-box">
+            <img src="{% thumbnail item.image '260x200' crop %}" alt="{{ item.name }}">
+        </a>
+        <div class="date-box row-t">
+            <div class="date c-gray">{{ item.date|date:'d E Y' }}</div>
+            <div class="line-box">
+                <hr>
+            </div>
+        </div>
+        <a href="{{ item.get_absolute_url }}" class="title">
+            {{ item.name }}
+        </a>
+    </div>
+    <div class="more-box">
+        <a href="{{ item.get_absolute_url }}" class="more-arrow">{{ blocks.more }}</a>
+    </div>
+</div>
